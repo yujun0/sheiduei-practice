@@ -1,8 +1,7 @@
 package homework.verify.lv3;
 
-
-import verify.IdVerifyHelper;
-import verify.VerifyResult;
+import com.practice.idVerify.IdVerifyHelper;
+import com.practice.idVerify.VerifyResult;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class VerifyHelperC02 extends IdVerifyHelper {
 				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);) {
 
 			String line = null;
-			List<VerifyResult> dataList = new ArrayList<VerifyResult>();
+			List<VerifyResult> dataList = new ArrayList<>();
 
 			while ((line = bufferedReader.readLine()) != null) {
 				

@@ -1,12 +1,12 @@
 package homework.verify.lv2;
 
-import verify.IdVerifyHelper;
+import com.practice.idVerify.IdVerifyHelper;
 
 public class TestIdValidate {
 
     public static void main(String[] args) {
-        String filePath = "idList2.txt";
-        IdVerifyHelper idVerifyHelper = new IdVerifyHelper();
-        System.out.println(idVerifyHelper.validate(filePath));
+        IdVerifyHelper idVerifyHelper = new IdVerifyHelper("idList.txt");
+        System.out.println(idVerifyHelper.validate());
+        System.out.println(idVerifyHelper.validate("idList1.txt"));
     }
 }

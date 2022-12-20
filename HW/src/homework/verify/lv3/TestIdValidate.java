@@ -1,6 +1,6 @@
 package homework.verify.lv3;
 
-import verify.IdVerifyHelper;
+import com.practice.idVerify.IdVerifyHelper;
 
 public class TestIdValidate {
 

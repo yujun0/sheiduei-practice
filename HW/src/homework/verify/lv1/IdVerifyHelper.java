@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class IdVerifyHelper {
 
     public static void main(String[] args) {
-        String fileName = "idList1.txt";
+        String fileName = "idList.txt";
         validate(fileName);
     }
 
