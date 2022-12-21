@@ -4,63 +4,65 @@ import com.practice.idVerify.IdVerifyHelper;
 import com.practice.idVerify.VerifyResult;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VerifyHelperC01 extends IdVerifyHelper {
 
-	@Override
-	public List<VerifyResult> validate(String fileName) {
-		
-		File file = new File(fileName);
+    public VerifyHelperC01(String filename) {
+        super(filename);
+    }
 
-		try (InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file), "UTF-8");
-				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);) {
+    @Override
+    public List<VerifyResult> validate(String fileName) {
+        String content = null;
+        try {
+            content = Files.readString(Paths.get(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-			String line = null;
-			List<VerifyResult> dataList = new ArrayList<>();
+        String[] idList = content.split("\r\n");
+        List<VerifyResult> dataList = new ArrayList<>();
 
-			while ((line = bufferedReader.readLine()) != null) {
-				
-				VerifyResult verifyResult = new VerifyResult();
+        for (int i = 0; i < idList.length; i++) {
+            String id = idList[i];
+            VerifyResult verifyResult = new VerifyResult();
+            Boolean extent = id.length() == 10;
+            Boolean format = id.matches("[A-Z]\\d{2}(\\d{4})\\d{3}");
 
-				if (line.length() == 10 && line.matches("[a-zA-Z0-9]+")) {
-					if (check(line)) {
-						verifyResult.setVerifySuccess(true);
-						verifyResult.setId(line);
-						verifyResult.setMessage("驗證成功");
-						
-						dataList.add(verifyResult);
-					} else {
-						verifyResult.setVerifySuccess(false);
-						verifyResult.setId(line);
-						verifyResult.setMessage("驗證失敗");
-						
-						dataList.add(verifyResult);
-					}
-				} else if (line.matches("[a-zA-Z0-9]+") != true) {
-					verifyResult.setVerifySuccess(false);
-					verifyResult.setId(line);
-					verifyResult.setMessage("驗證成功");
-					
-					dataList.add(verifyResult);
-				} else {
-					verifyResult.setVerifySuccess(false);
-					verifyResult.setId(line);
-					verifyResult.setMessage("驗證失敗");
-					
-					dataList.add(verifyResult);
-				}
-			}
+            if (extent.equals(false) && format.equals(false)) {
+                verifyResult.setVerifySuccess(false);
+                verifyResult.setId(id);
+                verifyResult.setMessage("證號長度不為10、證號格式錯誤");
+                dataList.add(verifyResult);
+            } else if (extent && format) {
+                if (check(id)) {
+                    verifyResult.setVerifySuccess(true);
+                    verifyResult.setId(id);
+                    verifyResult.setMessage("驗證成功");
+                } else {
+                    verifyResult.setVerifySuccess(false);
+                    verifyResult.setId(id);
+                    verifyResult.setMessage("驗證失敗");
+                }
+                dataList.add(verifyResult);
+            } else if (extent.equals(false)) {
+                verifyResult.setVerifySuccess(false);
+                verifyResult.setId(id);
+                verifyResult.setMessage("證號長度不為10");
+                dataList.add(verifyResult);
+            } else if (format.equals(false)) {
+                verifyResult.setVerifySuccess(false);
+                verifyResult.setId(id);
+                verifyResult.setMessage("證號格式錯誤");
+                dataList.add(verifyResult);
+            }
+        }
 
-			return dataList;
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return super.validate(fileName);
-	}
+        return dataList;
+    }
 
 }
