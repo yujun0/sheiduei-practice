@@ -18,11 +18,12 @@ public class AlphabetValues {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("請輸入英文字母或字串：");
-
-        // 欲要計算字串
+        System.out.print("請輸入英文字母或英文字串：");
+        // 要計算字串
         String str = scanner.nextLine();
+
         // String str = "values";
+
         // 一律轉大寫
         str = str.toUpperCase();
 
@@ -53,11 +54,7 @@ public class AlphabetValues {
                 return;
             }
         }
-//        int sum = str.chars()
-//                .mapToObj(c -> (char) c)
-//                .filter(LETTERS_MAP::containsKey)
-//                .mapToInt(c -> LETTERS_MAP.getOrDefault(c, 0))
-//                .sum();
+
         System.out.println("總和：" + sum);
     }
 
